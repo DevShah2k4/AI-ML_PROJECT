@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edge AI Medical Dictation</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+        h2 { color: #1e293b; margin-bottom: 0.5rem; }
+        p { color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem; }
+        
+        #btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        #btn.recording {
+            background-color: var(--danger);
+            animation: pulse 1.5s infinite;
+        }
+        #status {
+            margin-top: 1rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+        #output {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #f1f5f9;
+            border-radius: 0.5rem;
+            min-height: 50px;
+            text-align: left;
+            color: #334155;
+            border-left: 4px solid var(--primary);
+        }
+        #metrics {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        .metric-box { background: #f8fafc; padding: 5px; border-radius: 4px; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Medical Dictation</h2>
+        <p>Offline Edge AI Voice Recognition</p>
+        
+        <button id="btn">Start Recording</button>
+        <div id="status">System Ready</div>
+        
+        <div id="output">Transcription will appear here...</div>
+
+        <div id="metrics">
+            <div class="metric-box">RAM: <span id="ram-val">0 MB</span></div>
+            <div class="metric-box">Cold Start: <span id="start-val">0s</span></div>
+        </div>
+    </div>
+
+    <script>
+        let mediaRecorder;
+        let chunks = [];
+
+        const btn = document.getElementById('btn');
+        const status = document.getElementById('status');
+        const output = document.getElementById('output');
+
+        btn.onclick = async () => {
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                mediaRecorder.stop();
+                btn.innerText = "Start Recording";
+                btn.classList.remove('recording');
+            } else {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    chunks = [];
+                    
+                    mediaRecorder.ondataavailable = e => chunks.push(e.data);
+                    mediaRecorder.onstop = async () => {
+                        status.innerText = "AI Processing...";
+                        const blob = new Blob(chunks, { type: 'audio/webm' });
+                        const formData = new FormData();
+                        formData.append('audio', blob);
+
+                        const res = await fetch('/transcribe', { method: 'POST', body: formData });
+                        
+                        // Error protection: Check if response is actually JSON
+                        if (!res.ok) {
+                            const errorText = await res.text();
+                            throw new Error("Server Error: Check if 'model' folder exists.");
+                        }
+
+                        const data = await res.json();
+                        output.innerText = data.text || "(No speech detected)";
+                        document.getElementById('ram-val').innerText = data.metrics.ram_mb;
+                        document.getElementById('start-val').innerText = data.metrics.cold_start_sec;
+                        status.innerText = "Analysis Complete";
+                    };
+
+                    mediaRecorder.start();
+                    btn.innerText = "Stop Recording";
+                    btn.classList.add('recording');
+                    status.innerText = "Listening...";
+                } catch (err) {
+                    status.innerText = "Error: " + err.message;
+                    console.error(err);
+                }
+            }
+        };
+    </script>
+</body>
+</html>
