@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Video Call — Luxe Estates</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Start a live video call with a Luxe Estates specialist." />
+</head>
+<body>
+
+  <main class="section-padding" style="padding-top:120px;">
+    <div class="container" style="max-width:900px; margin:0 auto;">
+      <div class="section-header">
+        <h2>Start a Video Call</h2>
+        <p style="color:var(--color-text-secondary);">Connect instantly with a senior agent for a live walk-through or consultation.</p>
+      </div>
+
+      <div class="card" style="padding:2rem;">
+        <div style="display:flex; gap:2rem; flex-wrap:wrap; align-items:flex-start;">
+          <div style="flex:1 1 320px;">
+            <h3 data-i18n="video.how.title">How it works</h3>
+            <ol style="color:var(--color-text-secondary); margin-top:0.5rem;">
+              <li data-i18n="video.how.step1">Click <strong>Start Video Call</strong> to open a secure meeting link.</li>
+              <li data-i18n="video.how.step2">Allow camera and microphone access for a live walkthrough.</li>
+              <li data-i18n="video.how.step3">Discuss your requirements and next steps with a senior agent.</li>
+            </ol>
+            <p style="margin-top:1rem; color:var(--color-text-secondary);" data-i18n="video.note">Meetings use Google Meet by default; you can also schedule a call if you prefer a set time.</p>
+            <div style="margin-top:1rem;">
+              <a id="start-call" href="https://meet.google.com/" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="video.cta.now">Start Video Call</a>
+            </div>
+          </div>
+
+          <div style="flex:1 1 320px;">
+            <h3 data-i18n="video.schedule.title">Schedule a Call</h3>
+            <form id="schedule-form" style="margin-top:0.5rem;">
+              <label for="sch-name" style="display:block; margin-bottom:0.5rem;" data-i18n="form.name">Name</label>
+              <input id="sch-name" name="name" type="text" required style="width:100%; padding:0.6rem; margin-bottom:0.75rem; border-radius:6px; border:1px solid var(--glass-border); background:var(--color-surface); color:var(--color-text-primary);">
+
+              <label for="sch-email" style="display:block; margin-bottom:0.5rem;" data-i18n="form.email">Email</label>
+              <input id="sch-email" name="email" type="email" required style="width:100%; padding:0.6rem; margin-bottom:0.75rem; border-radius:6px; border:1px solid var(--glass-border); background:var(--color-surface); color:var(--color-text-primary);">
+
+              <label for="sch-time" style="display:block; margin-bottom:0.5rem;">Preferred time</label>
+              <input id="sch-time" name="time" type="datetime-local" style="width:100%; padding:0.6rem; margin-bottom:0.75rem; border-radius:6px; border:1px solid var(--glass-border); background:var(--color-surface); color:var(--color-text-primary);">
+
+              <button type="submit" class="btn">Schedule</button>
+              <p id="schedule-status" style="color:var(--color-text-secondary); margin-top:0.75rem; display:none;"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    // Handle schedule form submission
+    const scheduleForm = document.getElementById('schedule-form');
+    if (scheduleForm) {
+      scheduleForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Simulate submission
+        document.getElementById('schedule-status').style.display = 'block';
+        document.getElementById('schedule-status').textContent = translations[currentLang]['video.schedule.success'] || 'Thank you — your call request has been submitted.';
+        scheduleForm.reset();
+      });
+    }
+  </script>
+</body>
+</html>

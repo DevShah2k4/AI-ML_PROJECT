@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Luxe Estates — Luxury Real Estate</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Luxe Estates — Curated luxury properties with exceptional service.">
+</head>
+<body>
+
+  <!-- Hero -->
+  <main class="hero" role="main">
+    <img class="hero-bg" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop" alt="Luxury home exterior with pool">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content container">
+      <span class="hero-subtitle" data-i18n="hero.tagline">Exclusive Collection</span>
+      <h1 data-i18n="hero.headline">Find Your Dream Home — Premium Listings, Personalized Service</h1>
+      <p style="color:var(--color-text-secondary); margin-bottom: 1.75rem;" data-i18n="hero.subcopy">Curated properties in premier neighborhoods with dedicated agents to guide you every step of the way.</p>
+
+      <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-bottom:1.75rem;">
+        <a href="#listings" class="btn btn-primary" data-i18n="btn.viewListings">View Listings</a>
+        <a href="#contact" class="btn" data-i18n="btn.talkAgent">Talk to an Agent</a>
+      </div>
+
+
+
+      <!-- Search Form -->
+      <form id="search-form" aria-label="Property search" style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+        <input id="location" name="location" type="text" data-i18n="search.placeholder.location" placeholder="Location (e.g., Beverly Hills)" style="padding:0.75rem 1rem; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.02); color:var(--color-text-primary); min-width:220px;"> 
+        <select id="type" name="type" style="padding:0.75rem 1rem; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.02); color:var(--color-text-primary);">
+          <option value="">All Types</option>
+          <option value="house">House</option>
+          <option value="condo">Condo</option>
+          <option value="townhouse">Townhouse</option>
+        </select>
+        <input id="minPrice" name="minPrice" type="number" data-i18n="search.placeholder.min" placeholder="Min $" style="padding:0.75rem 1rem; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.02); color:var(--color-text-primary); width:120px;"> 
+        <input id="maxPrice" name="maxPrice" type="number" data-i18n="search.placeholder.max" placeholder="Max $" style="padding:0.75rem 1rem; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.02); color:var(--color-text-primary); width:120px;"> 
+        <button type="submit" class="btn" data-i18n="btn.search">Search</button>
+      </form>
+
+    </div>
+  </main>
+
+  <!-- Quick stats -->
+  <section class="stats-bar">
+    <div class="container stats-grid">
+      <div class="stat-item">
+        <h3>1,200+</h3>
+        <p>Properties Listed</p>
+      </div>
+      <div class="stat-item">
+        <h3>45</h3>
+        <p>Premier Cities</p>
+      </div>
+      <div class="stat-item">
+        <h3>160+</h3>
+        <p>Experienced Agents</p>
+      </div>
+      <div class="stat-item">
+        <h3>4.9/5</h3>
+        <p>Average Rating</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Listings -->
+  <section id="listings" class="section-padding container">
+    <div class="section-header">
+      <h2>Featured Listings</h2>
+      <p>Hand-picked luxury homes and condos — updated daily.</p>
+    </div>
+
+    <div id="listings-grid" class="card-grid">
+      <!-- Cards will be injected by script.js -->
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section-padding" style="background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);">
+    <div class="container">
+      <div class="section-header">
+        <h2>What Clients Say</h2>
+        <p>We prioritize service, transparency, and results — hear from our clients.</p>
+      </div>
+      <div class="card-grid">
+        <div class="card fade-in">
+          <div class="card-content">
+            <p style="color:var(--color-text-secondary); margin-bottom:1rem;">“Working with Luxe was seamless — they found us an incredible home above asking price with a flawless closing.”</p>
+            <strong>— Samantha R., Los Angeles</strong>
+          </div>
+        </div>
+        <div class="card fade-in">
+          <div class="card-content">
+            <p style="color:var(--color-text-secondary); margin-bottom:1rem;">“The team’s market knowledge saved us weeks of searching — exceptional agents and communication.”</p>
+            <strong>— Mark T., Miami</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About (moved to about.html) -->
+
+  <!-- CTA -->
+  <section id="contact" class="section-padding text-center">
+    <div class="container">
+      <h2>Get Personalized Guidance</h2>
+      <p style="color:var(--color-text-secondary); margin-bottom:1.5rem;">Schedule a private consultation with a senior agent to discuss your goals.</p>
+      <a href="contact.html" class="btn btn-primary">Schedule a Consultation</a>
+    </div>
+  </section>
+
+  <!-- Property Modal (hidden) -->
+  <div id="property-modal" role="dialog" aria-hidden="true" style="display:none; position:fixed; inset:0; z-index:2000; align-items:center; justify-content:center;">
+    <div style="background:var(--color-surface); border:1px solid var(--glass-border); padding:1.5rem; width:90%; max-width:900px; border-radius:6px; position:relative;">
+      <button id="modal-close" aria-label="Close details" style="position:absolute; top:12px; right:12px; background:transparent; border:none; color:var(--color-text-secondary); font-size:1.25rem; cursor:pointer;">✕</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
